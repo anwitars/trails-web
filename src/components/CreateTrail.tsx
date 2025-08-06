@@ -9,6 +9,7 @@ import { Button } from "./Button";
 import { CopyAll } from "@mui/icons-material";
 import { shortenString } from "@/utils";
 import LoadingCircle from "./LoadingCircle";
+import { useSafeCallback } from "./ErrorBoundary";
 
 const MAX_TOKEN_DISPLAY_LENGTH = 16 as const;
 
@@ -127,8 +128,8 @@ const ShowTrail = ({ trail, onNew }: ShowTrailProps) => {
 const CreateTrail = () => {
   const [trail, setTrail] = useState<TrailResponse | undefined>(undefined);
 
-  const handleSubmit = useCallback(
-    async (data: z.infer<typeof TrailInputSchema>) => {
+  const handleSubmit = useSafeCallback(
+    async (data: TrailInput) => {
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/pave", {
         method: "POST",
         headers: {
@@ -155,7 +156,7 @@ const CreateTrail = () => {
 
       setTrail(result);
     },
-    [],
+    [setTrail],
   );
 
   if (trail === undefined) return <CreateTrailForm onSubmit={handleSubmit} />;
