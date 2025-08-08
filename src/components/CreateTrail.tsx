@@ -40,7 +40,7 @@ const CreateTrailForm = ({
     <div className="card max-w-md w-full">
       <form onSubmit={handleSubmit} noValidate>
         <h2 className="text-xl font-semibold mb-4 text-center">
-          Create a Trail
+          Create your Trail
         </h2>
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Trail URL</label>
