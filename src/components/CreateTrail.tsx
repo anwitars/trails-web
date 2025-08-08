@@ -4,12 +4,12 @@ import { FormEvent, useCallback, useMemo, useState } from "react";
 import * as z from "zod";
 import { useForm } from "@/form";
 import TextInput from "./TextInput";
-import { Button } from "./Button";
 import { CopyAll } from "@mui/icons-material";
 import { shortenString } from "@/utils";
 import LoadingCircle from "./LoadingCircle";
 import { useSafeCallback } from "./ErrorBoundary";
 import { apiSend } from "@/api/utils";
+import { useCooldown } from "@/cooldown";
 
 const MAX_TOKEN_DISPLAY_LENGTH = 16 as const;
 
@@ -58,11 +58,7 @@ const CreateTrailForm = ({
         <div className="flex justify-end">
           <button
             type="submit"
-            className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              !form.hasChanged || !form.valid
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            }`}
+            className={`button ${!form.hasChanged || !form.valid ? "button-disabled" : ""}`}
             disabled={!form.hasChanged || submitting || !form.valid}
           >
             {submitting ? <LoadingCircle /> : "Create Trail"}
@@ -96,32 +92,42 @@ const ShowTrail = ({ trail, onNew }: ShowTrailProps) => {
         <p id="trail-id">
           <strong>Trail ID:</strong> {trail.id}
         </p>
-        <button
-          className="text-blue-600 hover:text-blue-800 focus:outline-none"
-          onClick={() =>
-            navigator.clipboard.writeText(
-              `${process.env.NEXT_PUBLIC_API_URL}/t/${trail.id}`,
-            )
-          }
-        >
-          <CopyAll />
-        </button>
+        <CopyButton
+          toCopy={`${process.env.NEXT_PUBLIC_API_URL}/t/${trail.id}`}
+        />
       </div>
       <div className="flex justify-between items-center">
         <p id="trail-token">
           <strong>Trail Token:</strong> {trailToken}
         </p>
-        <button
-          className="text-blue-600 hover:text-blue-800 focus:outline-none"
-          onClick={() => navigator.clipboard.writeText(trail.token)}
-        >
-          <CopyAll />
-        </button>
+        <CopyButton toCopy={trail.token} />
       </div>
-      <Button className="absolute top-4 right-4" onClick={onNew}>
+      <button className="button absolute top-4 right-4" onClick={onNew}>
         New
-      </Button>
+      </button>
     </div>
+  );
+};
+
+const COPY_COOLDOWN = 2000 as const; // 2 seconds cooldown
+
+const CopyButton = ({ toCopy }: { toCopy: string }) => {
+  const cooldown = useCooldown(COPY_COOLDOWN);
+
+  const handleCopy = useSafeCallback(async () => {
+    if (cooldown.cooling) return;
+    await navigator.clipboard.writeText(toCopy);
+    cooldown.start();
+  }, [toCopy, cooldown]);
+
+  return (
+    <button
+      className={`icon-button ${cooldown.cooling ? "icon-button-disabled" : ""}`}
+      onClick={handleCopy}
+      disabled={cooldown.cooling}
+    >
+      <CopyAll />
+    </button>
   );
 };
 

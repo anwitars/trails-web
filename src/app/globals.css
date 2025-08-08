@@ -4,6 +4,8 @@
   --background: #0a0a0a;
   --foreground: #ededed;
   --color-primary: var(--color-blue-600);
+  --color-primary-dark: var(--color-blue-700);
+  --color-primary-light: var(--color-blue-500);
 }
 
 body {
@@ -20,6 +22,53 @@ body {
 
   .card-validation-error {
     @apply bg-red-700 py-3 px-8 mt-2 shadow-md rounded-lg;
+  }
+
+  .button {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--foreground);
+    transition: background 0.3s ease;
+
+    &:hover,
+    &:focus {
+      background: var(--color-primary-dark);
+      border-color: var(--color-primary-dark);
+    }
+
+    &:active {
+      background: var(--color-primary-light);
+      border-color: var(--color-primary-light);
+    }
+
+    /* also set the ring color */
+    --tw-ring-color: rgba(var(--color-primary), --tw-ring-opacity);
+
+    @apply px-4 py-2 rounded-md focus:outline-none focus:ring-2 border-2;
+  }
+
+  .button-disabled {
+    @apply bg-transparent opacity-50 cursor-not-allowed;
+  }
+
+  .icon-button {
+    color: var(--color-primary);
+    transition: color 0.2s ease;
+
+    &:hover,
+    &:focus {
+      color: var(--color-primary-light);
+    }
+  }
+
+  .icon-button-disabled {
+    color: var(--color-primary-dark) !important;
+    pointer-events: none;
+
+    &:hover,
+    &:focus {
+      color: var(--color-primary-dark) !important;
+    }
   }
 }
 
