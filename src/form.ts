@@ -18,6 +18,7 @@ export type Form<T> = {
   errors: ErrorTree<T> | undefined;
   validate: (data: T) => boolean;
   hasChanged: boolean;
+  valid: boolean;
 };
 
 export function useForm<T>(
@@ -27,6 +28,7 @@ export function useForm<T>(
 ): Form<T> {
   const [values, setValues] = useState<T>(initialValue);
   const [errors, setErrors] = useState<ErrorTree<T> | undefined>(undefined);
+  const valid = useMemo(() => errors === undefined, [errors]);
   const initialRef = useRef(initialValue);
 
   const hasChanged = useMemo(() => {
@@ -75,5 +77,6 @@ export function useForm<T>(
     errors,
     validate,
     hasChanged,
+    valid,
   };
 }
