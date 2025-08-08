@@ -29,12 +29,14 @@ export type EndpointPathParams<
   K extends Endpoint,
   M extends EndpointMethod<K>,
 > = ApiSchema["paths"][K][M] extends {
-  parameters: infer P extends readonly {
-    name: infer N;
-    schema: { type: string };
-  }[];
+  parameters: infer P;
 }
-  ? { [Param in P[number] as N & string]: string }
+  ? P extends readonly {
+      name: infer N;
+      schema: { type: string };
+    }[]
+    ? { [Param in P[number] as N & string]: string }
+    : never
   : never;
 
 /** Converts an OpenAPI schema literal type represented as a string to a TypeScript type. */

@@ -1,4 +1,16 @@
-import { ValidationErrorCard } from "./Cards";
+const ValidationErrorCard = ({ errors }: { errors?: string[] }) => {
+  if (!errors || errors.length === 0) return null;
+
+  return (
+    <div className="card-validation-error">
+      <ul className="text-sm list-disc">
+        {errors.map((error, index) => (
+          <li key={index}>{error}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 type TextInputProps = {
   value: string;

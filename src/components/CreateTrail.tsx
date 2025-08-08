@@ -2,7 +2,6 @@
 
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import * as z from "zod";
-import { Card } from "./Cards";
 import { useForm } from "@/form";
 import TextInput from "./TextInput";
 import { Button } from "./Button";
@@ -38,15 +37,13 @@ const CreateTrailForm = ({
   );
 
   return (
-    <Card className="max-w-md w-full">
+    <div className="card max-w-md w-full">
       <form onSubmit={handleSubmit} noValidate>
         <h2 className="text-xl font-semibold mb-4 text-center">
           Create a Trail
         </h2>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-200 mb-2">
-            Trail URL
-          </label>
+          <label className="block text-sm font-medium mb-2">Trail URL</label>
           <TextInput
             value={form.values.url}
             onChange={(value) => form.setValues({ url: value })}
@@ -72,7 +69,7 @@ const CreateTrailForm = ({
           </button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 };
 
@@ -93,7 +90,7 @@ const ShowTrail = ({ trail, onNew }: ShowTrailProps) => {
   );
 
   return (
-    <Card className="max-w-md w-full mt-8 grid gap-4 relative">
+    <div className="card max-w-md w-full mt-8 grid gap-4 relative">
       <h2 className="text-xl font-semibold mb-8 text-center">Trail Created</h2>
       <div className="flex justify-between items-center">
         <p id="trail-id">
@@ -124,7 +121,7 @@ const ShowTrail = ({ trail, onNew }: ShowTrailProps) => {
       <Button className="absolute top-4 right-4" onClick={onNew}>
         New
       </Button>
-    </Card>
+    </div>
   );
 };
 

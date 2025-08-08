@@ -11,7 +11,7 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 text-gray-200">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6">
       <h1 className="text-5xl">
         An unexpected error occurred. Please try again later.
       </h1>
