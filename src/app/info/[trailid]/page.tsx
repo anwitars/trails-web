@@ -3,14 +3,14 @@ import { DateTime } from "luxon";
 
 type RowProps = {
   label: string;
-  value: string;
+  children: React.ReactNode;
 };
 
-const Row = ({ label, value }: RowProps) => {
+const Row = ({ label, children }: RowProps) => {
   return (
     <tr className="py-4">
       <td className="font-medium py-1 pr-4">{label}:</td>
-      <td className="text-primary text-right py-1 pl-4">{value}</td>
+      <td className="text-primary text-right py-1 pl-4">{children}</td>
     </tr>
   );
 };
@@ -43,15 +43,14 @@ const Page = async ({ params }: Props) => {
       <div className="card">
         <table className="w-full">
           <tbody>
-            <Row label="URL" value={info.url} />
-            <Row
-              label="Created At"
-              value={DateTime.fromISO(info.created).toLocaleString(
+            <Row label="URL">{<a href={info.url}>{info.url}</a>}</Row>
+            <Row label="Created At">
+              {DateTime.fromISO(info.created).toLocaleString(
                 DateTime.DATETIME_MED,
               )}
-            />
-            <Row label="All Visits" value={info.visits.all.toString()} />
-            <Row label="Unique Visits" value={info.visits.unique.toString()} />
+            </Row>
+            <Row label="All Visits">{info.visits.all.toString()}</Row>
+            <Row label="Unique Visits">{info.visits.unique.toString()}</Row>
           </tbody>
         </table>
       </div>

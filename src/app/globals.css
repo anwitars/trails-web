@@ -26,3 +26,34 @@ body {
 .text-primary {
   color: var(--color-primary);
 }
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  position: relative;
+  padding: 0.25em 0;
+  transition: color 0.2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(0.05em + 1px);
+    background: currentColor;
+    transform: scaleX(0.3);
+    opacity: 0.5;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  &:active {
+    color: var(--color-primary);
+  }
+}
