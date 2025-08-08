@@ -10,6 +10,7 @@ import { CopyAll } from "@mui/icons-material";
 import { shortenString } from "@/utils";
 import LoadingCircle from "./LoadingCircle";
 import { useSafeCallback } from "./ErrorBoundary";
+import { apiSend } from "@/api/utils";
 
 const MAX_TOKEN_DISPLAY_LENGTH = 16 as const;
 
@@ -130,31 +131,20 @@ const CreateTrail = () => {
 
   const handleSubmit = useSafeCallback(
     async (data: TrailInput) => {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/pave", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const response = await apiSend("/pave", "post", {
+        body: data,
       });
 
-      // TODO: handle errors properly
-      console.debug("Response:", response);
-
-      if (!response.ok) {
-        console.error("Failed to create trail:", response.statusText);
+      // probably this is never happen, as the form is validated
+      if (response.code === 422) {
+        console.error("Validation errors:", response.data.detail);
         return;
       }
 
-      const result = await response.json().then(
-        (data) =>
-          ({
-            id: data.trail_id,
-            token: data.token,
-          }) as TrailResponse,
-      );
-
-      setTrail(result);
+      setTrail({
+        id: response.data.trail_id,
+        token: response.data.token,
+      });
     },
     [setTrail],
   );
