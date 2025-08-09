@@ -2,6 +2,9 @@ import { apiSend } from "@/api/utils";
 import { DateTime } from "luxon";
 import Link from "next/link";
 
+const formatDateTime = (datetime: DateTime) =>
+  datetime.toLocaleString(DateTime.DATETIME_MED);
+
 type RowProps = {
   label: string;
   children: React.ReactNode;
@@ -35,6 +38,7 @@ const Page = async ({ params }: Props) => {
   }
 
   const info = response.data;
+  const createdAt = DateTime.fromISO(info.created);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -45,10 +49,9 @@ const Page = async ({ params }: Props) => {
         <table className="w-full">
           <tbody>
             <Row label="URL">{<Link href={info.url}>{info.url}</Link>}</Row>
-            <Row label="Created At">
-              {DateTime.fromISO(info.created).toLocaleString(
-                DateTime.DATETIME_MED,
-              )}
+            <Row label="Created At">{formatDateTime(createdAt)}</Row>
+            <Row label="Expires at">
+              {formatDateTime(createdAt.plus({ hours: info.lifetime }))}
             </Row>
             <Row label="All Visits">{info.visits.all.toString()}</Row>
             <Row label="Unique Visits">{info.visits.unique.toString()}</Row>
