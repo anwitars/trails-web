@@ -10,11 +10,11 @@ const Description = () => (
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-[#000b1a] p-6">
+    <div className="page">
       <h1 className="text-7xl font-bold mb-4">Trails</h1>
       <Description />
       <span className="mb-16" />
       <CreateTrail />
-    </main>
+    </div>
   );
 }

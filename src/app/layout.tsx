@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Navbar } from "@/components/Navigation";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -24,7 +25,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={`${openSans.variable} antialiased`}>
-        <ErrorBoundary>{children}</ErrorBoundary>
+        <ErrorBoundary>
+          <Navbar />
+          <main>{children}</main>
+        </ErrorBoundary>
       </body>
     </html>
   );
