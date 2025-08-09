@@ -296,6 +296,11 @@ export const apiSchema = {
             "type": "string",
             "title": "Created",
             "description": "The UTC timestamp when the Trail was created, in ISO 8601 format."
+          },
+          "lifetime": {
+            "type": "integer",
+            "title": "Lifetime",
+            "description": "The lifetime of the Trail in hours."
           }
         },
         "type": "object",
@@ -303,7 +308,8 @@ export const apiSchema = {
           "id",
           "url",
           "visits",
-          "created"
+          "created",
+          "lifetime"
         ],
         "title": "TrailInfo"
       },
