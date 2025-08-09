@@ -1,4 +1,5 @@
 import { apiSend } from "@/api/utils";
+import Link from "next/link";
 
 type Props = {
   params: Promise<{
@@ -21,7 +22,8 @@ const Page = async ({ params }: Props) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-5xl font-bold mb-8">
-        Trail would be traversed to <a href={response.data}>{response.data}</a>
+        Trail would be traversed to{" "}
+        <Link href={response.data}>{response.data}</Link>
       </h1>
     </div>
   );

@@ -11,7 +11,7 @@ type OptionalIfNever<T> = {
   [K in keyof T as T[K] extends never ? never : K]: T[K];
 };
 
-type UseApiSendOptionsStrict<
+type UseApiSendInputOptionsStrict<
   E extends Endpoint,
   M extends EndpointMethod<E>,
 > = {
@@ -19,17 +19,28 @@ type UseApiSendOptionsStrict<
   body: EndpointJSONInput<E, M>;
 };
 
-type UseApiSendOptions<
+type UseApiSendInputOptions<
   E extends Endpoint,
   M extends EndpointMethod<E>,
-> = OptionalIfNever<UseApiSendOptionsStrict<E, M>>;
+> = OptionalIfNever<UseApiSendInputOptionsStrict<E, M>>;
 
-export const apiSend = async <E extends Endpoint, M extends EndpointMethod<E>>(
+type UseApiSendOptions<Inputs, GracefulNotFound extends boolean> = {
+  gracefulNotFound?: GracefulNotFound;
+} & Inputs;
+
+export const apiSend = async <
+  E extends Endpoint,
+  M extends EndpointMethod<E>,
+  GracefulNotFound extends boolean = false,
+>(
   endpoint: E,
   method: M,
-  options: UseApiSendOptions<E, M>,
-): Promise<EndpointResponses<E, M>> => {
-  const { pathParams, body } = options as UseApiSendOptionsStrict<E, M>;
+  options: UseApiSendOptions<UseApiSendInputOptions<E, M>, GracefulNotFound>,
+): Promise<EndpointResponses<E, M, GracefulNotFound>> => {
+  const { pathParams, body, gracefulNotFound } = options as UseApiSendOptions<
+    UseApiSendInputOptionsStrict<E, M>,
+    GracefulNotFound
+  >;
 
   // Construct the URL based on the endpoint and method
   let url = process.env.NEXT_PUBLIC_API_URL + endpoint;
@@ -55,7 +66,11 @@ export const apiSend = async <E extends Endpoint, M extends EndpointMethod<E>>(
   const response = await fetch(url, requestOptions);
 
   // we will keep the 422 status code for validation errors
-  if (!response.ok && response.status !== 422) {
+  if (
+    !response.ok &&
+    response.status !== 422 &&
+    (response.status !== 404 || !gracefulNotFound)
+  ) {
     throw new Error(`Request failed with status ${response.status}`);
   }
 
@@ -73,5 +88,5 @@ export const apiSend = async <E extends Endpoint, M extends EndpointMethod<E>>(
   return {
     code: response.status,
     data,
-  } as EndpointResponses<E, M>;
+  } as unknown as EndpointResponses<E, M, GracefulNotFound>;
 };

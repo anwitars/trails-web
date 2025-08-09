@@ -23,7 +23,7 @@ type TextInputProps = {
   disabled?: boolean;
 };
 
-const TextInput = ({
+export const TextInput = ({
   value,
   onChange,
   placeholder,
@@ -55,4 +55,14 @@ const TextInput = ({
   );
 };
 
-export default TextInput;
+type LabeledTextInputProps = TextInputProps & { label: string };
+
+export const LabeledTextInput = ({
+  label,
+  ...textInputProps
+}: LabeledTextInputProps) => (
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-2">{label}</label>
+    <TextInput {...textInputProps} />
+  </div>
+);

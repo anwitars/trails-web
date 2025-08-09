@@ -116,25 +116,21 @@ export type EndpointJSONInput<
 export type EndpointResponses<
   K extends Endpoint,
   M extends EndpointMethod<K>,
-> = ApiSchema["paths"][K][M] extends { responses: infer R }
-  ? {
-      [StatusCode in keyof R]: R[StatusCode] extends {
-        content: { "application/json": { schema: infer Schema } };
-      }
-        ? {
-            code: StringToNumber<StatusCode & string>;
-            data: SchemaType<Schema>;
+  GracefulNotFound extends boolean = false,
+> =
+  | (ApiSchema["paths"][K][M] extends { responses: infer R }
+      ? {
+          [StatusCode in keyof R]: R[StatusCode] extends {
+            content: { [K in string]: { schema: infer Schema } };
           }
-        : R[StatusCode] extends {
-              content: { "text/plain": { schema: infer Schema } };
-            }
-          ? {
-              code: StringToNumber<StatusCode & string>;
-              data: SchemaType<Schema>;
-            }
-          : {
-              code: StringToNumber<StatusCode & string>;
-              data: never;
-            };
-    }[keyof R]
-  : never;
+            ? {
+                code: StringToNumber<StatusCode & string>;
+                data: SchemaType<Schema>;
+              }
+            : {
+                code: StringToNumber<StatusCode & string>;
+                data: never;
+              };
+        }[keyof R]
+      : object)
+  | (GracefulNotFound extends true ? { code: 404; data: string } : never);

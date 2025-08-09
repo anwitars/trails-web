@@ -1,5 +1,6 @@
 import { apiSend } from "@/api/utils";
 import { DateTime } from "luxon";
+import Link from "next/link";
 
 type RowProps = {
   label: string;
@@ -43,7 +44,7 @@ const Page = async ({ params }: Props) => {
       <div className="card">
         <table className="w-full">
           <tbody>
-            <Row label="URL">{<a href={info.url}>{info.url}</a>}</Row>
+            <Row label="URL">{<Link href={info.url}>{info.url}</Link>}</Row>
             <Row label="Created At">
               {DateTime.fromISO(info.created).toLocaleString(
                 DateTime.DATETIME_MED,

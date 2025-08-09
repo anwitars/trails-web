@@ -3,7 +3,7 @@
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import * as z from "zod";
 import { useForm } from "@/form";
-import TextInput from "./TextInput";
+import { LabeledTextInput } from "./TextInput";
 import { CopyAll } from "@mui/icons-material";
 import { shortenString } from "@/utils";
 import LoadingCircle from "./LoadingCircle";
@@ -42,23 +42,21 @@ const CreateTrailForm = ({
         <h2 className="text-xl font-semibold mb-4 text-center">
           Create your Trail
         </h2>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Trail URL</label>
-          <TextInput
-            value={form.values.url}
-            onChange={(value) => form.setValues({ url: value })}
-            placeholder="Enter URL"
-            errors={form.errors?.properties?.url?.errors}
-            required
-            type="url"
-            className="w-full"
-            disabled={submitting}
-          />
-        </div>
+        <LabeledTextInput
+          label="Trail URL"
+          value={form.values.url}
+          onChange={(value) => form.setValues({ url: value })}
+          placeholder="Enter URL"
+          errors={form.errors?.properties?.url?.errors}
+          required
+          type="url"
+          className="w-full"
+          disabled={submitting}
+        />
         <div className="flex justify-end">
           <button
             type="submit"
-            className={`button ${!form.hasChanged || !form.valid ? "button-disabled" : ""}`}
+            className="button"
             disabled={!form.hasChanged || submitting || !form.valid}
           >
             {submitting ? <LoadingCircle /> : "Create Trail"}
