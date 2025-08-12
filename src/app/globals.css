@@ -131,6 +131,22 @@ main {
   .icon-button.error[disabled]:focus {
     color: var(--color-error-dark) !important;
   }
+
+  dialog[open] {
+    animation: dialogfadein 0.3s ease-in-out forwards;
+  }
+
+  @keyframes dialogfadein {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 .text-primary {
