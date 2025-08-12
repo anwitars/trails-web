@@ -41,7 +41,7 @@ export const TrailSearcher = ({
         break;
       }
       case 404: {
-        setBackendErrors(["Trail not found"]);
+        setBackendErrors(["Trail not found or has been expired"]);
         break;
       }
       case 422: {
