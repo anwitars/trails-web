@@ -37,3 +37,6 @@ export const shortenString = (str: string, maxLength: number): string => {
 export const sleep = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const trailIdToUrl = (id: string): string =>
+  `${process.env.NEXT_PUBLIC_API_URL}/t/${id}`;

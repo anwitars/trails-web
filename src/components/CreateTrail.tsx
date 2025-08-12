@@ -4,12 +4,12 @@ import { FormEvent, useCallback, useMemo, useState } from "react";
 import * as z from "zod";
 import { useForm } from "@/form";
 import { LabeledTextInput } from "./TextInput";
-import { CopyAll } from "@mui/icons-material";
-import { shortenString } from "@/utils";
+import { shortenString, trailIdToUrl } from "@/utils";
 import LoadingCircle from "./LoadingCircle";
 import { useSafeCallback } from "./ErrorBoundary";
 import { apiSend } from "@/api/utils";
-import { useCooldown } from "@/cooldown";
+import { saveTrail } from "@/savedTrails";
+import { CopyButton } from "./CopyButton";
 
 const MAX_TOKEN_DISPLAY_LENGTH = 16 as const;
 
@@ -90,9 +90,7 @@ const ShowTrail = ({ trail, onNew }: ShowTrailProps) => {
         <p id="trail-id">
           <strong>Trail ID:</strong> {trail.id}
         </p>
-        <CopyButton
-          toCopy={`${process.env.NEXT_PUBLIC_API_URL}/t/${trail.id}`}
-        />
+        <CopyButton toCopy={trailIdToUrl(trail.id)} />
       </div>
       <div className="flex justify-between items-center">
         <p id="trail-token">
@@ -107,28 +105,6 @@ const ShowTrail = ({ trail, onNew }: ShowTrailProps) => {
   );
 };
 
-const COPY_COOLDOWN = 2000 as const; // 2 seconds cooldown
-
-const CopyButton = ({ toCopy }: { toCopy: string }) => {
-  const cooldown = useCooldown(COPY_COOLDOWN);
-
-  const handleCopy = useSafeCallback(async () => {
-    if (cooldown.cooling) return;
-    await navigator.clipboard.writeText(toCopy);
-    cooldown.start();
-  }, [toCopy, cooldown]);
-
-  return (
-    <button
-      className={`icon-button ${cooldown.cooling ? "icon-button-disabled" : ""}`}
-      onClick={handleCopy}
-      disabled={cooldown.cooling}
-    >
-      <CopyAll />
-    </button>
-  );
-};
-
 const CreateTrail = () => {
   const [trail, setTrail] = useState<TrailResponse | undefined>(undefined);
 
@@ -138,8 +114,14 @@ const CreateTrail = () => {
         body: data,
       });
 
-      // probably this is never happen, as the form is validated
-      if (response.code === 422) {
+      if (response.code === 200) {
+        saveTrail({
+          id: response.data.trail_id,
+          token: response.data.token,
+          url: data.url,
+        });
+      } else if (response.code === 422) {
+        // probably this is never happen, as the form is validated
         console.error("Validation errors:", response.data.detail);
         return;
       }

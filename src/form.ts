@@ -17,6 +17,7 @@ export type Form<T> = {
   setValues: (partial: Partial<T>) => void;
   errors: ErrorTree<T> | undefined;
   validate: (data: T) => boolean;
+  reset: () => void;
   hasChanged: boolean;
   valid: boolean;
 };
@@ -34,6 +35,12 @@ export function useForm<T>(
   const hasChanged = useMemo(() => {
     return deepEqual(values, initialRef.current) === false;
   }, [values]);
+
+  const reset = useCallback(() => {
+    setValues(initialValue);
+    setErrors(undefined);
+    initialRef.current = initialValue;
+  }, [initialValue]);
 
   const validate = useCallback(
     (data: T) => {
@@ -76,6 +83,7 @@ export function useForm<T>(
     setValues: partialSetValues,
     errors,
     validate,
+    reset,
     hasChanged,
     valid,
   };

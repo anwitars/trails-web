@@ -40,7 +40,7 @@ type NavSideProps = {
 };
 
 const NavSide = ({ className, children }: NavSideProps) => (
-  <div className={className}>{children}</div>
+  <div className={"gap-16 " + className}>{children}</div>
 );
 
 export const Navbar = () => {
@@ -63,6 +63,7 @@ export const Navbar = () => {
         </NavItem>
         <NavSide className="col-span-2 lg:col-span-4 flex justify-start">
           <NavItem href="/info">Info</NavItem>
+          <NavItem href="/saved">My Trails</NavItem>
         </NavSide>
       </nav>
 
@@ -81,6 +82,9 @@ export const Navbar = () => {
         <ul
           className={`absolute top-16 left-0 card w-full flex flex-col items-center justify-center gap-4 mt-4 transform transition-all duration-300 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
         >
+          <MobileNavItem href="/saved" closeNavBar={closeNavBar}>
+            My Trails
+          </MobileNavItem>
           <MobileNavItem href="/info" closeNavBar={closeNavBar}>
             Trail Info
           </MobileNavItem>
