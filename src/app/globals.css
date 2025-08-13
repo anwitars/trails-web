@@ -14,7 +14,17 @@
   --main-height: calc(100vh - var(--navbar-height));
 }
 
+html,
 body {
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  grid-template-rows: var(--navbar-height) 1fr;
+  grid-template-areas:
+    "nav"
+    "main";
   background: var(--background);
   /* text-gray-200 */
   color: #e5e7eb;
@@ -22,15 +32,20 @@ body {
 }
 
 main {
-  height: var(--main-height);
+  grid-area: main;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @layer components {
   nav {
+    grid-area: nav;
     background: var(--color-nav);
     color: var(--foreground);
-    height: var(--navbar-height);
-    @apply fixed top-0 left-0 w-full z-50 rounded-xl flex items-center justify-center px-4;
+    @apply rounded-xl flex items-center justify-center px-4;
   }
 
   nav a {
@@ -42,8 +57,6 @@ main {
   }
 
   .page {
-    margin-top: var(--navbar-height);
-    height: var(--main-height);
     @apply flex flex-col items-center justify-center p-6;
   }
 
