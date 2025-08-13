@@ -165,6 +165,10 @@ main {
   background: var(--color-primary);
 }
 
+.bg-primary-dark {
+  background: var(--color-primary-dark);
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;

@@ -182,6 +182,10 @@ const SavedTrailCard = ({
 }: SavedTrailCardProps) => (
   <li key={trail.id} className="card">
     <div className="flex flex-col gap-4 justify-center items-center">
+      <h3 className="text-2xl">
+        <span>Trail </span>
+        <span className="text-primary">{trail.id}</span>
+      </h3>
       <a href={trail.url} className="text-2xl">
         {trail.url}
       </a>
@@ -194,8 +198,10 @@ const SavedTrailCard = ({
         >
           <DeleteOutlined />
         </IconButton>
-        <div className="card bg-primary p-2 flex gap-4">
-          <span>Trail ID: {trail.id}</span>
+        <div className="card bg-primary-dark p-2">
+          <a href={`/info/${trail.id}`} className="text-default">
+            Show Info
+          </a>
         </div>
         <CopyButton toCopy={trailIdToUrl(trail.id)} />
       </div>
