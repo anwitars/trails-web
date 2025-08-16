@@ -120,17 +120,19 @@ export type EndpointResponses<
 > =
   | (ApiSchema["paths"][K][M] extends { responses: infer R }
       ? {
-          [StatusCode in keyof R]: R[StatusCode] extends {
-            content: { [K in string]: { schema: infer Schema } };
-          }
-            ? {
-                code: StringToNumber<StatusCode & string>;
-                data: SchemaType<Schema>;
-              }
-            : {
-                code: StringToNumber<StatusCode & string>;
-                data: never;
-              };
+          [StatusCode in keyof R]: StatusCode extends "204"
+            ? { code: 204 }
+            : R[StatusCode] extends {
+                  content: { [K in string]: { schema: infer Schema } };
+                }
+              ? {
+                  code: StringToNumber<StatusCode & string>;
+                  data: SchemaType<Schema>;
+                }
+              : {
+                  code: StringToNumber<StatusCode & string>;
+                  data: never;
+                };
         }[keyof R]
       : object)
   | (GracefulNotFound extends true ? { code: 404; data: string } : never);

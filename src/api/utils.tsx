@@ -6,6 +6,8 @@ import {
   EndpointResponses,
 } from "./types";
 
+type TrailsHeader = "X-Trail-Token";
+
 /** Removes all "never" keys in a type, leaving only the keys that have actual values. */
 type OptionalIfNever<T> = {
   [K in keyof T as T[K] extends never ? never : K]: T[K];
@@ -17,6 +19,7 @@ type UseApiSendInputOptionsStrict<
 > = {
   pathParams: EndpointPathParams<E, M>;
   body: EndpointJSONInput<E, M>;
+  headers?: Record<TrailsHeader, string>;
 };
 
 type UseApiSendInputOptions<
@@ -37,10 +40,11 @@ export const apiSend = async <
   method: M,
   options: UseApiSendOptions<UseApiSendInputOptions<E, M>, GracefulNotFound>,
 ): Promise<EndpointResponses<E, M, GracefulNotFound>> => {
-  const { pathParams, body, gracefulNotFound } = options as UseApiSendOptions<
-    UseApiSendInputOptionsStrict<E, M>,
-    GracefulNotFound
-  >;
+  const { pathParams, body, headers, gracefulNotFound } =
+    options as UseApiSendOptions<
+      UseApiSendInputOptionsStrict<E, M>,
+      GracefulNotFound
+    >;
 
   // Construct the URL based on the endpoint and method
   let url = process.env.NEXT_PUBLIC_API_URL + endpoint;
@@ -50,16 +54,14 @@ export const apiSend = async <
     }
   }
 
-  let headers = {};
+  const reqHeaders: Record<string, string> = headers || {};
   if (body) {
-    headers = {
-      "Content-Type": "application/json",
-    };
+    reqHeaders["Content-Type"] = "application/json";
   }
 
   const requestOptions: RequestInit = {
     method: (method as string).toUpperCase(),
-    headers,
+    headers: reqHeaders,
     body: body ? JSON.stringify(body) : undefined,
   };
 
@@ -73,6 +75,9 @@ export const apiSend = async <
   ) {
     throw new Error(`Request failed with status ${response.status}`);
   }
+
+  if (response.status === 204)
+    return { code: 204 } as EndpointResponses<E, M, GracefulNotFound>;
 
   let data;
   const contentType = response.headers.get("Content-Type");

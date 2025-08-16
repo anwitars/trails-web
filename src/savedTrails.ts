@@ -35,3 +35,11 @@ export const saveTrail = (trail: SavedTrailWithId): void => {
 
 export const unsaveTrail = (trailId: string): void =>
   localStorage.removeItem(`${STORAGE_TRAIL_PREFIX}${trailId}`);
+
+export const getSavedTrail = (trailId: string): SavedTrail | null => {
+  const item = localStorage.getItem(`${STORAGE_TRAIL_PREFIX}${trailId}`);
+  if (!item) return null;
+
+  // let the error page handle the error
+  return JSON.parse(item) as SavedTrail;
+};

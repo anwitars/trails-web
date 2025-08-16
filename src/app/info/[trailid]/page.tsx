@@ -2,6 +2,7 @@ import { apiSend } from "@/api/utils";
 import TrailNotFound from "@/components/TrailNotFound";
 import { DateTime } from "luxon";
 import Link from "next/link";
+import { DeleteButton } from "./DeleteButton";
 
 const formatDateTime = (datetime: DateTime) =>
   datetime.toLocaleString(DateTime.DATETIME_MED);
@@ -51,7 +52,7 @@ const Page = async ({ params }: Props) => {
       <h1 className="text-5xl font-bold mb-8">
         Trail Info for <span className="text-primary">{trailid}</span>
       </h1>
-      <div className="card">
+      <div className="card flex flex-col gap-4">
         <table className="w-full">
           <tbody>
             <Row label="URL">{<Link href={info.url}>{info.url}</Link>}</Row>
@@ -63,6 +64,9 @@ const Page = async ({ params }: Props) => {
             <Row label="Unique Visits">{info.visits.unique.toString()}</Row>
           </tbody>
         </table>
+        <div className="flex justify-end">
+          <DeleteButton trailId={info.id} />
+        </div>
       </div>
     </div>
   );
