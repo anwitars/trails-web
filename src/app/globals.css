@@ -184,6 +184,8 @@ a {
   position: relative;
   padding: 0.25em 0;
   transition: color 0.2s ease;
+  text-wrap: nowrap;
+  text-wrap-mode: nowrap;
 
   &::after {
     content: '';
@@ -213,4 +215,9 @@ a {
   &:active {
     color: var(--color-primary);
   }
+}
+
+a.canwrap {
+  text-wrap: wrap;
+  text-wrap-mode: wrap;
 }

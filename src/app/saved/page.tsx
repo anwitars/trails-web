@@ -186,7 +186,7 @@ const SavedTrailCard = ({
         <span>Trail </span>
         <span className="text-primary">{trail.id}</span>
       </h3>
-      <a href={trail.url} className="text-2xl">
+      <a href={trail.url} className="canwrap text-2xl">
         {trail.url}
       </a>
       <div className="flex gap-4">
