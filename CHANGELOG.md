@@ -1,3 +1,4 @@
-v0.1.0 (2025-08-16)
+v0.1.1 (2025-08-16)
 -------------------
-**Initial Release**
+fixes:
+- use runtime environmental variables instead building into the app
