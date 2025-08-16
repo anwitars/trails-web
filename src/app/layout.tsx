@@ -10,8 +10,8 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Tiny Trails",
-  description: "Just another URL shortener.",
+  title: "Trails",
+  description: "A transparent URL shortener",
 };
 
 export default function RootLayout({
