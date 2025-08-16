@@ -1,3 +1,4 @@
+import { getAppConfig } from "@/config";
 import {
   Endpoint,
   EndpointJSONInput,
@@ -40,6 +41,8 @@ export const apiSend = async <
   method: M,
   options: UseApiSendOptions<UseApiSendInputOptions<E, M>, GracefulNotFound>,
 ): Promise<EndpointResponses<E, M, GracefulNotFound>> => {
+  const { apiUrl } = await getAppConfig();
+
   const { pathParams, body, headers, gracefulNotFound } =
     options as UseApiSendOptions<
       UseApiSendInputOptionsStrict<E, M>,
@@ -47,7 +50,7 @@ export const apiSend = async <
     >;
 
   // Construct the URL based on the endpoint and method
-  let url = process.env.NEXT_PUBLIC_API_URL + endpoint;
+  let url = apiUrl + endpoint;
   if (pathParams) {
     for (const [key, value] of Object.entries(pathParams)) {
       url = url.replace(`{${key}}`, encodeURIComponent(String(value)));

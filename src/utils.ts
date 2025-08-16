@@ -1,3 +1,5 @@
+import { getAppConfig } from "./config";
+
 export const deepEqual = <T>(a: T, b: T): boolean => {
   if (a === b) return true;
   if (
@@ -38,5 +40,5 @@ export const sleep = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-export const trailIdToUrl = (id: string): string =>
-  `${process.env.NEXT_PUBLIC_API_URL}/t/${id}`;
+export const trailIdToUrl = async (id: string): Promise<string> =>
+  getAppConfig().then((config) => `${config.apiUrl}/t/${id}`);

@@ -3,7 +3,7 @@ import { useSafeCallback } from "./ErrorBoundary";
 import { IconButton } from "./IconButton";
 
 type CopyButtonProps = {
-  toCopy: string;
+  toCopy: string | Promise<string>;
   className?: string;
   disabled?: boolean;
   icon?: React.ReactNode;
@@ -16,7 +16,8 @@ export const CopyButton = ({
   icon,
 }: CopyButtonProps) => {
   const handleCopy = useSafeCallback(async () => {
-    await navigator.clipboard.writeText(toCopy);
+    const text = await toCopy;
+    await navigator.clipboard.writeText(text);
   }, []);
 
   return (
