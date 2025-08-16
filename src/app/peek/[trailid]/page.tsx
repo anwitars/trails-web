@@ -1,4 +1,5 @@
 import { apiSend } from "@/api/utils";
+import TrailNotFound from "@/components/TrailNotFound";
 import Link from "next/link";
 
 type Props = {
@@ -13,7 +14,12 @@ const Page = async ({ params }: Props) => {
     pathParams: {
       trail_id: trailid,
     },
+    gracefulNotFound: true,
   });
+
+  if (response.code === 404) {
+    return <TrailNotFound />;
+  }
 
   if (response.code !== 200) {
     throw new Error(`Failed to fetch trail info: ${response.data}`);
