@@ -16,7 +16,12 @@ import {
   unsaveTrail,
 } from "@/savedTrails";
 import { trailIdToUrl } from "@/utils";
-import { AddOutlined, DeleteOutlined } from "@mui/icons-material";
+import {
+  AddOutlined,
+  DeleteOutlined,
+  Link as LinkIcon,
+  Key as KeyIcon,
+} from "@mui/icons-material";
 import {
   FormEvent,
   useCallback,
@@ -182,9 +187,10 @@ const SavedTrailCard = ({
 }: SavedTrailCardProps) => (
   <li key={trail.id} className="card">
     <div className="flex flex-col gap-4 justify-center items-center">
-      <h3 className="text-2xl">
-        <span>Trail </span>
+      <h3 className="text-2xl flex gap-2">
+        <span>Trail</span>
         <span className="text-primary">{trail.id}</span>
+        <CopyButton toCopy={trailIdToUrl(trail.id)} icon={<LinkIcon />} />
       </h3>
       <a href={trail.url} className="canwrap text-2xl">
         {trail.url}
@@ -203,7 +209,7 @@ const SavedTrailCard = ({
             Show Info
           </a>
         </div>
-        <CopyButton toCopy={trailIdToUrl(trail.id)} />
+        <CopyButton toCopy={trail.token} icon={<KeyIcon />} />
       </div>
     </div>
   </li>

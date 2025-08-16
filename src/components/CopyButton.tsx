@@ -6,12 +6,14 @@ type CopyButtonProps = {
   toCopy: string;
   className?: string;
   disabled?: boolean;
+  icon?: React.ReactNode;
 };
 
 export const CopyButton = ({
   toCopy,
   className,
   disabled,
+  icon,
 }: CopyButtonProps) => {
   const handleCopy = useSafeCallback(async () => {
     await navigator.clipboard.writeText(toCopy);
@@ -24,7 +26,7 @@ export const CopyButton = ({
       disabled={disabled}
       cooldown={2000}
     >
-      <CopyAll />
+      {icon ?? <CopyAll />}
     </IconButton>
   );
 };
