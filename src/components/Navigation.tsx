@@ -56,6 +56,7 @@ export const Navbar = () => {
         className="hidden md:grid grid-cols-5 lg:grid-cols-9 grid-flow-col gap-16"
       >
         <NavSide className="col-span-2 lg:col-span-4 flex justify-end">
+          <NavItem href="/about">About</NavItem>
           <NavItem href="/peek">Peek</NavItem>
         </NavSide>
         <NavItem href="/" bold>
@@ -90,6 +91,9 @@ export const Navbar = () => {
           </MobileNavItem>
           <MobileNavItem href="/peek" closeNavBar={closeNavBar}>
             Peek Trail
+          </MobileNavItem>
+          <MobileNavItem href="/peek" closeNavBar={closeNavBar}>
+            About
           </MobileNavItem>
         </ul>
       </nav>
