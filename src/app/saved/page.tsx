@@ -34,6 +34,7 @@ import { useForm } from "@/form";
 import { LabeledTextInput } from "@/components/TextInput";
 import { useSafeCallback } from "@/components/ErrorBoundary";
 import { apiSend } from "@/api/utils";
+import Link from "next/link";
 
 export default function Page() {
   const iteratorRef =
@@ -116,9 +117,12 @@ export default function Page() {
 
   return (
     <div className="page">
-      <div className="flex gap-8 mb-8">
-        <h1>Saved Trails</h1>
-        <AddTrailToSaved onSaved={handleSavedTrail} />
+      <div className="flex flex-col gap-2 items-center mb-8">
+        <div className="flex items-center justify-center relative">
+          <h1>Saved Trails</h1>
+          <AddTrailToSaved onSaved={handleSavedTrail} />
+        </div>
+        <PageDescription />
       </div>
       <ul className="flex flex-col gap-4">
         {trails.map((trail) => (
@@ -140,6 +144,14 @@ export default function Page() {
     </div>
   );
 }
+
+const PageDescription = () => (
+  <p>
+    Trails that you created using this device will be listed here. You can save
+    additional Trails if you have their ID and Token. Saved Trails can be
+    deleted permanently on their <Link href="/info">info</Link> page.
+  </p>
+);
 
 type UnsaveTrailModalProps = {
   trailToUnsave: string | undefined;
@@ -225,7 +237,10 @@ const AddTrailToSaved = ({ onSaved }: AddTrailToSavedProps) => {
 
   return (
     <>
-      <IconButton onClick={() => setFormIsOpen(true)}>
+      <IconButton
+        className="absolute right-[-2rem]"
+        onClick={() => setFormIsOpen(true)}
+      >
         <AddOutlined />
       </IconButton>
       <AddTrailForm
