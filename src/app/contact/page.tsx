@@ -20,7 +20,7 @@ export default function Page() {
             .
           </li>
           <li>
-            Prefer email? Reach out at{" "}
+            Prefer email? Reach out to{" "}
             <a href="mailto:anwitarsbusiness@gmail.com">
               anwitarsbusiness@gmail.com
             </a>
