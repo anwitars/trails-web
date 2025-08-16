@@ -43,6 +43,49 @@ main {
     @apply flex items-center justify-center mt-8 italic text-sm;
   }
 
+  a {
+    position: relative;
+    display: inline-block;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 0.25em 0;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: calc(0.05em + 1px);
+      background: currentColor;
+      transform: scaleX(0.3);
+      opacity: 0.5;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+
+    @media (width < 40rem) {
+      &:focus::after {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      color: var(--color-primary);
+    }
+  }
+
+  a.canwrap {
+    white-space: normal;
+  }
+
   nav {
     grid-area: nav;
     background: var(--color-nav);
@@ -51,7 +94,7 @@ main {
   }
 
   nav a {
-    color: var(--foreground) !important;
+    color: var(--foreground);
   }
 
   h1 {
@@ -182,48 +225,4 @@ main {
 
 .bg-primary-dark {
   background: var(--color-primary-dark);
-}
-
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  position: relative;
-  padding: 0.25em 0;
-  transition: color 0.2s ease;
-  text-wrap: nowrap;
-  text-wrap-mode: nowrap;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: calc(0.05em + 1px);
-    background: currentColor;
-    transform: scaleX(0.3);
-    opacity: 0.5;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-
-  &:hover::after {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-
-  @media (width < var(--breakpoint-sm)) {
-    &:focus::after {
-      transform: scaleX(1);
-      opacity: 1;
-    }
-  }
-
-  &:active {
-    color: var(--color-primary);
-  }
-}
-
-a.canwrap {
-  text-wrap: wrap;
-  text-wrap-mode: wrap;
 }

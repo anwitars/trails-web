@@ -36,9 +36,9 @@ export default function Page() {
           <li>No logins, subscriptions, or paywalls.</li>
           <li>
             <Link href="/info" className="underline">
-              Info pages
+              Info
             </Link>{" "}
-            show where a link leads, its lifetime, and visit count.
+            pages show where a link leads, its lifetime, and visit count.
           </li>
           <li>
             <Link href="/peek" className="underline">
