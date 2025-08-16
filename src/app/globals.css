@@ -3,6 +3,7 @@
 :root {
   --background: #060c1f;
   --foreground: #ededed;
+  --foreground-dark: #cfd4d9;
   --color-primary: var(--color-blue-600);
   --color-primary-dark: var(--color-blue-700);
   --color-primary-light: var(--color-blue-500);
@@ -37,6 +38,11 @@ main {
 }
 
 @layer components {
+  footer {
+    color: var(--foreground-dark);
+    @apply flex items-center justify-center mt-8 italic text-sm;
+  }
+
   nav {
     grid-area: nav;
     background: var(--color-nav);
