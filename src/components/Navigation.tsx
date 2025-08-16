@@ -56,15 +56,16 @@ export const Navbar = () => {
         className="hidden md:grid grid-cols-5 lg:grid-cols-9 grid-flow-col gap-16"
       >
         <NavSide className="col-span-2 lg:col-span-4 flex justify-end">
-          <NavItem href="/about">About</NavItem>
+          <NavItem href="/saved">My Trails</NavItem>
+          <NavItem href="/info">Info</NavItem>
           <NavItem href="/peek">Peek</NavItem>
         </NavSide>
         <NavItem href="/" bold>
           Trails
         </NavItem>
         <NavSide className="col-span-2 lg:col-span-4 flex justify-start">
-          <NavItem href="/info">Info</NavItem>
-          <NavItem href="/saved">My Trails</NavItem>
+          <NavItem href="/about">About</NavItem>
+          <NavItem href="/contact">Contact</NavItem>
         </NavSide>
       </nav>
 
@@ -94,6 +95,9 @@ export const Navbar = () => {
           </MobileNavItem>
           <MobileNavItem href="/peek" closeNavBar={closeNavBar}>
             About
+          </MobileNavItem>
+          <MobileNavItem href="/contact" closeNavBar={closeNavBar}>
+            Contact
           </MobileNavItem>
         </ul>
       </nav>
