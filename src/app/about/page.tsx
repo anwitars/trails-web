@@ -5,11 +5,11 @@ const Section = ({ children }: { children: React.ReactNode }) => (
 );
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <h1 className="text-center mb-2 text-5xl">{children}</h1>
+  <h1 className="text-center mb-2 text-4xl">{children}</h1>
 );
 
 const SectionContent = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-2xl text-justify">{children}</p>
+  <p className="text-xl text-justify">{children}</p>
 );
 
 export default function Page() {
@@ -32,7 +32,7 @@ export default function Page() {
         <SectionContent>
           Trails is built around transparency and simplicity:
         </SectionContent>
-        <ul className="list-disc list-inside text-2xl space-y-2">
+        <ul className="list-disc list-inside text-xl space-y-2">
           <li>No logins, subscriptions, or paywalls.</li>
           <li>
             <Link href="/info" className="underline">
