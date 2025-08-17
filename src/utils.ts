@@ -1,5 +1,7 @@
 import { getAppConfig } from "./config";
 
+export const isServerSide = (): boolean => typeof window === "undefined";
+
 export const deepEqual = <T>(a: T, b: T): boolean => {
   if (a === b) return true;
   if (
