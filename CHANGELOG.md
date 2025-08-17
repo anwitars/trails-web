@@ -1,4 +1,5 @@
-v0.1.1 (2025-08-16)
+v0.1.2 (2025-08-17)
 -------------------
 fixes:
-- use runtime environmental variables instead building into the app
+- could not use info and peek pages
+- fixed grammar error related to 'reach out to'
